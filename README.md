@@ -1,7 +1,5 @@
-# Django Auth Tutorial source code
+# HOW TO SETIP THIS EXAMPLE USING AUTH REQUEST
 
-Accompanies the three-part series on [LearnDjango](https://learndjango.com).
-
-- [Part 1: Login/Logout](https://learndjango.com/tutorials/django-login-and-logout-tutorial)
-- [Part 2: Signup](https://learndjango.com/tutorials/django-signup-tutorial)
-- [Part 3: Password Reset](https://learndjango.com/tutorials/django-password-reset-tutorial)
+1. Start server: python manage.py runserver <local-ip>:8000
+2. Change global.domain in lab/chart/values.yaml to <local-ip>.nip.io
+3. Deploy lab: helm install lab lab/chart 
