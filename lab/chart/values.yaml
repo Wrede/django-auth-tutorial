@@ -1,0 +1,18 @@
+
+settings_file: project-settings
+user_settings_file: user-settings
+namespace: default
+appname: app-name
+project:
+  name: test
+  slug: slug
+
+global:
+  domain: 10.0.144.239.nip.io
+
+imagePullSecrets:
+  - name: regcred
+
+
+ingress:
+  v1beta1: false

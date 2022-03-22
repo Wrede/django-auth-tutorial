@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appname }}
+  namespace: {{ .Values.namespace }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      release: {{ .Release.Name }}
+      app: lab
+      type: app
+      pod: lab
+  template:
+    metadata:
+      labels:
+        release: {{ .Release.Name }}
+        app: lab
+        type: app
+        pod: lab
+    spec:
+      securityContext:
+          runAsUser: 1000
+          runAsGroup: 0
+          fsGroup: 0
+      containers:
+      - name: labs
+        image: jupyter/minimal-notebook
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8888
+        env:
+        - name: JUPYTER_ENABLE_LAB
+          value: "yes"
+        - name: NOTEBOOK_PASSWD_SHA1
+          value: ""
+        - name: NOTEBOOK_TOKEN
+          value: ""
+        workingDir: /home/jovyan/work
+        volumeMounts:
+        - name: jupyterconf
+          mountPath: /etc/jupyter/jupyter_notebook_config.py
+          subPath: jupyter_notebook_config.py
+
+        securityContext:
+          allowPrivilegeEscalation: true
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      volumes:
+      - name: jupyterconf
+        configMap:
+          name: {{ .Release.Name }}-jupyter-configmap
